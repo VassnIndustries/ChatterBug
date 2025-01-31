@@ -1,0 +1,313 @@
+
+.Chat {
+    position: absolute;
+    left: 20%;
+    top: 22%;
+    text-align: left;
+    text-indent: 3%;
+    display: flex;
+    flex-direction: column;
+    background-image: url(Images/CHatter\ Background.png);
+    background-repeat: repeat;
+    min-height: 608px;
+    width: 1074px;
+    padding-top: 15px;
+}
+
+.Menu{
+    color: black;
+    background-color: #FF8660;
+    border-color: #578B2E;
+    z-index: 100;
+    position:fixed;
+    border-style: solid;
+    border-radius: 30px;
+    border-width: 4px;
+    min-width: 110px;
+    text-align: center;
+    padding: 5px;
+}
+  
+.button {
+    border-radius: 50px;
+    text-decoration: none;
+    border-width: 4px;
+    display:flex;
+    font-size: large;
+    font-weight: 600;
+    border-style: solid;
+    height: 35px;
+    cursor: pointer;
+    margin-top: 10px;
+    color: black;
+    background-color: #FF8660;
+    border-color: #578B2E;
+    border-radius: 50px;
+    text-decoration: none;
+    border-width: 4px;
+}
+
+.inputer{
+    background-color: #E2F0AA;
+    border: #578B2E;
+    border-radius: 50px;
+    border-width: 3px;
+    border-style: solid;
+    text-align: center;
+    text-decoration: none;
+    justify-content: center;
+    display: flex;
+    font-size: large;
+    font-weight: 600;
+}
+
+#messageHolder{
+
+    color: black;
+    background-color: #FF8660;
+    border-color: #578B2E;
+    border-radius: 20px;
+    text-decoration: none;
+    border-width: 4px;
+    border-style: solid;
+    max-width: 500px;
+    line-height: 24px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    position: relative;
+    text-align: center;
+    margin: 12px;
+}
+
+#RecmessageHolder{
+
+    color: black;
+    background: #C5E255;
+    border-color: #578B2E;
+    border-radius: 20px;
+    text-decoration: none;
+    border-width: 4px;
+    border-style: solid;
+    max-width: 500px;
+    line-height: 24px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    position: relative;
+    text-align: center;
+    margin: 12px;
+}
+
+#RepmessageHolder{
+
+    flex-direction: column;
+    display: flex;
+    color: black;
+    background: #24fc85;
+    border-color: #2e8b42;
+    border-radius: 20px;
+    text-decoration: none;
+    border-width: 4px;
+    border-style: solid;
+    max-width: 500px;
+    line-height: 24px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    position: relative;
+    text-align: center;
+    margin: 12px;
+}
+
+#ServermessageHolder{
+
+    flex-direction: column;
+    display: flex;
+    color: black;
+    background-color: #FF8660;
+    border-color: #578B2E;
+    border-radius: 20px;
+    text-decoration: none;
+    border-width: 4px;
+    border-style: solid;
+    max-width: 500px;
+    line-height: 24px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    position: relative;
+    text-align: center;
+    margin: 12px;
+}
+
+#messagePic{
+    border-radius: 20px;
+    height: 60px;
+    margin-top: 15px;
+}
+
+#messageImg{
+    max-width: 300px;
+    max-height: 300px;
+    margin-left: 3px;
+}
+
+#HolderHolder{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 40px;
+}
+
+#recHolderHolder{
+    display: flex;
+    flex-direction: row-reverse;
+    margin-bottom: 40px;
+}
+
+#Servers{
+    color: black;
+    background-color: #a3f77c;
+    border-color: #578B2E;
+    border-radius: 20px;
+    border-width: 4px;
+    border-style: solid;
+    position: absolute;
+    right: 7%;
+    height: 85%;
+    width: 60%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 1%;
+}
+
+.typebar {
+    background-color: #C5E255;
+    text-align: center;
+    text-decoration: none;
+    justify-content: center;
+    display: flex;
+    font-size: large;
+    font-weight: 600;
+    width: 1350px;
+    height: 70px;
+    right: auto;
+    text-align: center;
+    z-index: 98;
+    position: fixed;
+    left: 0px;
+    bottom: 0%;
+}
+
+.send {
+    border-radius: 50px;
+    text-decoration: none;
+    border-width: 4px;
+    display: flex;
+    font-size: large;
+    font-weight: 600;
+    border-style: solid;
+    height: 35px;
+    cursor: pointer;
+    margin-top: 24px;
+    
+    color: black;
+    background-color: #FF8660;
+    border-color: #578B2E;
+    border-radius: 50px;
+    border-width: 4px;
+}
+  
+.gifbar {
+    background-color: #E2F0AA;
+    margin-top: 25px;
+    border: #578B2E;
+    border-radius: 50px;
+    text-align: center;
+    text-decoration: none;
+    justify-content: center;
+    display: flex;
+    font-size: large;
+    font-weight: 600;
+    width: 300px;
+    height: 30px;
+    text-align: center;
+}
+
+.textimputer {
+    margin-top: 25px;
+    background-color: #E2F0AA;
+    border: #578B2E;
+    border-radius: 50px;
+    text-align: center;
+    text-decoration: none;
+    justify-content: center;
+    display: flex;
+    font-size: large;
+    font-weight: 600;
+    width: 300px;
+    height: 30px;
+    text-align: center;
+}
+  
+.EmojiPutter {
+    color: black;
+    background-color: #FF8660;
+    border-color: #578B2E;
+    margin-top: 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: large;
+    border-width: 4px;
+    font-weight: 600;
+    border-style: solid;
+    cursor: pointer;
+    
+}
+
+.side {
+    background-color: #FF8660;
+    border-style: solid;
+    border-color: #578B2E;
+    border-width: 5px;
+    height: 95vh;
+    width: 40vh;
+    left: 0px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    font-size: calc(10px + 2vmin);
+    color: #578B2E;
+    position: fixed;
+    top: 0;
+    z-index: 98;
+}
+
+.App-header {
+    background-color: #C5E255;
+    height: 23vh;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: #578B2E;
+    position: absolute;
+    top: 0;
+    width: 1327px;
+    z-index: 97;
+    border-width: 4px;
+    border-color:  #578B2E;
+    border-style: solid;
+}
+
+.App {
+    text-align: left;
+    text-indent: 20%;
+    background-image: url(CHatter\ Background.png);
+    background-repeat: repeat;
+    min-height: 608px;
+}
+
+.profilePrev {
+    border-radius: 20px;
+    height: 70px;
+    margin-top: 15px;
+}

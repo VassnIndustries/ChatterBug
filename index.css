@@ -1,0 +1,23 @@
+.button{
+    color: black;
+    background-color: #FF8660;
+    border-color: #578B2E;
+    border-radius: 50px;
+    text-decoration: none;
+    border-width: 4px;
+
+    font-size: large;
+    font-weight: 600;
+    border-style: solid;
+    height: 35px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.backDrop{
+    background-image: url(Images/CHatter\ Background.png);
+    background-repeat: repeat;
+    min-height: 608px;
+    align-content:end;
+    align-self: center;
+}

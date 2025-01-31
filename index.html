@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Welcome to ChatterBug</title>
+    <link rel="stylesheet" href="index.css">
+
+    <script src=
+"https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js">
+    </script>
+
+    <script src=
+"https://www.gstatic.com/firebasejs/8.2.7/firebase-auth.js">
+    </script>
+
+</head>
+
+<header style="
+    background-color: #FF8660;
+    border: #578B2E;
+    border-radius: 50px;
+    border-style: solid;
+    color: black;
+    width: 800px;
+    height: 500px;
+    position: absolute;
+    top: 10%;
+    right: 3%;
+    flex-direction: row;
+    display: flex;
+">
+<textarea readonly style="height: 400px;
+    margin-top:50px;
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 650px;
+    background-color: #C5E255;
+    border-width: 4px;
+    border-color:  #578B2E;
+    border-style: solid;">updates Log
+Version 2.0.0
+Total revamp
+</textarea>
+<div style="display: flex;
+flex-direction: column;
+margin-top: 50px;">
+    <button style="height: 60px;" class="button">New</button>
+    <button style="height: 60px;" class="button">Updates</button>
+    <button style="height: 60px;" class="button">events</button>
+    <button style="height: 60px;" class="button">More</button>
+</div>
+
+</header>
+
+<body class="backDrop">
+
+    <script type="Module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js'
+        import { getFirestore, setDoc, doc, getDoc } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js' 
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBGzZch_zntuIuZLxX3NF4UGB9-FWkSIfg",
+            authDomain: "chatter-bug-e5c64.firebaseapp.com",
+            projectId: "chatter-bug-e5c64",
+            storageBucket: "chatter-bug-e5c64.firebasestorage.app",
+            messagingSenderId: "71779570683",
+            appId: "1:71779570683:web:6c287f0f2fc38d5a4ff15e",
+            measurementId: "G-LQN2K08W1D"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        const auth = getAuth(app);
+
+        const db = getFirestore(app)
+
+        const provider = new GoogleAuthProvider();
+
+
+        // SignIn function
+        function signIn() {
+            alert('wow')
+            signInWithPopup(auth, provider)
+            .then(() => {
+                window.location.href = ".//chat.html"
+            })
+            alert("LogIn/SingUp Successful")
+        }
+
+        // SignOut
+        function signOut() {
+            localStorage.setItem('Profile', null);
+            localStorage.setItem('UserName', null);
+            localStorage.setItem('UserId', null);
+            auth.signOut();
+            alert("SignOut Successful");
+        }
+
+        //Guest Login
+        async function Guest(){
+            localStorage.setItem('Server', 'ChatterHub');
+            if (localStorage.getItem('UserId') == null){
+                const seed = "guest:" + Math.floor(Math.random() * 1000000);
+                localStorage.setItem('UserId', seed);
+            }
+            
+            const yourRef = doc(db, "User list", localStorage.getItem('UserId'))
+
+            await getDoc(yourRef).then((docSnap)=> {
+                if (docSnap.exists()){
+                    window.location.href = ".//chat.html"
+                }else{
+                    createAccount()
+                }
+            })
+        }
+
+
+        async function createAccount(){
+            const date = new Date();
+            await setDoc(doc(db, "User list", localStorage.getItem('UserId')), {
+                createdAt: date,
+                photo: 'https://www.pngmart.com/files/23/Profile-PNG-Photo.png',
+                name: 'guest',
+                uid: localStorage.getItem('UserId'),
+            })
+            window.location.href = ".//chat.html"
+        }
+
+
+        document.querySelector('#InSign').addEventListener('click', signIn)
+
+        document.querySelector('#OutSign').addEventListener('click', signOut)
+
+        document.querySelector('#guestLogin').addEventListener('click', Guest)
+    </script>
+    <div>
+        <text style="font-size:xx-large;">🐞ChatterBug🐞</text>
+        <button style="display: flex;" class="button" id="InSign">
+            SignIn/LogIn
+        </button>
+
+        <button style="display: flex;" class="button" id="OutSign">
+            SignOut
+        </button>
+
+        <button style="display: flex;" class="button" id="guestLogin">
+            Login as Guest
+        </button>
+    </div>
+</body>
+
+</html>

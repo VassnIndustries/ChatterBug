@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<link rel="stylesheet" href="chat.css">
+
+<script type="Module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js';
+import { getFirestore, collection, getDocs} from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBGzZch_zntuIuZLxX3NF4UGB9-FWkSIfg",
+  authDomain: "chatter-bug-e5c64.firebaseapp.com",
+  projectId: "chatter-bug-e5c64",
+  storageBucket: "chatter-bug-e5c64.firebasestorage.app",
+  messagingSenderId: "71779570683",
+  appId: "1:71779570683:web:6c287f0f2fc38d5a4ff15e",
+  measurementId: "G-LQN2K08W1D"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app)
+//Server list already exists
+
+const citiesCol = collection(db, "Server List");
+const citySnapshot = await getDocs(citiesCol);
+const cityList = citySnapshot.docs.map(doc => doc.data());
+
+cityList.sort(function(a, b){return b.createdAt - a.createdAt});
+
+let count = 0
+while (count < cityList.length) {
+    const Area = document.getElementById('Servers')
+    const HolderHolder = document.createElement('div')
+    const Holder = document.createElement('p')
+    const message = document.createElement('text')
+    const message2 = document.createElement('text')
+    const message3 = document.createElement('text')
+    message.textContent = cityList[count].name
+    message2.textContent = "about:" + cityList[count].info
+    message3.textContent = "owned by:" + cityList[count].owner
+    message.id = 'messageText'
+    Holder.appendChild(message)
+    Holder.appendChild(message2)
+    Holder.appendChild(message3)
+
+    const join = document.createElement('button')
+    join.textContent = 'join'
+    join.id = 'join'
+    join.setAttribute('class', 'button')
+    join.setAttribute('value', cityList[count].name)
+
+    Holder.appendChild(join)
+    HolderHolder.appendChild(Holder)
+    Area.appendChild(HolderHolder)
+    Holder.id = 'ServermessageHolder'
+    HolderHolder.id = 'HolderHolder'
+    join.addEventListener('click', function(event){
+        localStorage.setItem('Server',  "Custom servers/Search/" + join.value);
+        window.location.href = ".//chat.html"
+    });
+    count += 1
+}
+
+function Search(Input) {
+
+    const ByeArea = document.getElementById('Servers')
+    ByeArea.remove();
+
+    const Area = document.createElement('div')
+    Area.id = "Servers"
+    const Body = document.querySelector('#body')
+    Body.appendChild(Area)
+
+    let ServersFound = 0
+
+    count = 0
+
+    while (count < cityList.length) {
+        if (cityList[count].name.toLowerCase().includes(Input.toLowerCase()) || Input == ""){
+            const newArea = document.getElementById('Servers')
+            const HolderHolder = document.createElement('div')
+            const Holder = document.createElement('p')
+
+            const join = document.createElement('button')
+            join.textContent = 'join'
+            join.id = 'join'
+            join.setAttribute('class', 'button')
+            join.setAttribute('value', cityList[count].name)
+
+            const message = document.createElement('text')
+            const message2 = document.createElement('text')
+            const message3 = document.createElement('text')
+            message.textContent = cityList[count].name
+            message2.textContent = "about:" + cityList[count].info
+            message3.textContent = "owned by:" + cityList[count].owner
+            message.id = 'messageText'
+            Holder.appendChild(message)
+            Holder.appendChild(message2)
+            Holder.appendChild(message3)
+            Holder.appendChild(join)
+            HolderHolder.appendChild(Holder)
+            newArea.appendChild(HolderHolder)
+            Holder.id = 'ServermessageHolder'
+            HolderHolder.id = 'HolderHolder'
+
+            join.addEventListener('click', function(event){
+                localStorage.setItem('Server',  "Custom servers/Search/" + join.value);
+                window.location.href = ".//chat.html"
+            });
+
+            ServersFound += 1
+        }
+        count += 1
+    }
+    if (ServersFound == 0){
+        const newArea = document.getElementById('Servers')
+        const HolderHolder = document.createElement('div')
+        const Holder = document.createElement('p')
+        const message = document.createElement('text')
+        message.textContent = "The Server " + Input + " does not Exist or is Private"
+        message.id = 'messageText'
+        Holder.appendChild(message)
+        HolderHolder.appendChild(Holder)
+        newArea.appendChild(HolderHolder)
+        Holder.id = 'messageHolder'
+        HolderHolder.id = 'HolderHolder'
+    }
+}
+
+document.getElementById("search").addEventListener('submit', function(event){
+    const searchValue = document.querySelector('#bar').value
+    event.preventDefault()
+    Search(searchValue)
+});
+
+document.getElementById("back").addEventListener('click', function(event){
+    window.location.href = ".//chat.html"
+});
+
+document.getElementById("Return").addEventListener('click', function(event){
+    localStorage.setItem('Server',  "ChatterHub");
+    window.location.href = ".//chat.html"
+});
+
+  </script>
+  <style>
+    .body{
+        background-image: url(Images/CHatter\ Background.png);
+        background-repeat: repeat;
+    }
+  </style>
+    <body id="body" class="body">
+        <title>Server Search</title>
+        <div style="
+        font-weight: 600;
+        color: black;
+        background-color: #FF8660;
+        border-color: #578B2E;
+        border-radius: 20px;
+        border-width: 4px;
+        border-style: solid;
+        position: absolute;
+        left: 8%;
+        height: 85%;
+        padding: 1%;
+        ">
+            <text>Servers</text>
+            <form id="search">
+                <input class="inputer" id="bar"/>
+                <button class="button" type="submit">search</button>
+            </form>
+            <button id="Return" class="button">return To ChatterHub</button>
+            <button id="back" class="button">back</button>
+        </div>
+        <div id="Servers">
+            
+        </div>
+    </body>
+</html>

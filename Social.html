@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<link rel="stylesheet" href="chat.css">
+<style>
+    .body{
+        background-image: url(Images/CHatter\ Background.png);
+        background-repeat: repeat;
+    }
+  </style>
+    <body id="body" class="body">
+        <title>Socials</title>
+        <div style="color: black;
+        background-color: #FF8660;
+        border-color: #578B2E;
+        border-radius: 20px;
+        border-width: 4px;
+        border-style: solid;
+        position: absolute;
+        left: 8%;
+        height: 85%;
+        padding: 1%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        ">
+            <text>Profile Settings</text>
+            <img class="profilePrev" id="ProfilePrev"/>
+            <text id="UserNamePrev" style="margin-bottom: 20px;"></text>
+            <text>Username</text>
+            <form id="name" style="margin-bottom: 5px;">
+                <input id="bar1" class="inputer"/>
+            </form>
+            <text>Profile picture</text>
+            <form id="Profile">
+                <input id="bar2" class="inputer"/>
+            </form>
+            <button id="back" class="button">back</button>
+        </div>
+        <div id="Servers">
+            
+        </div>
+    </body>
+    <script type="Module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js';
+        import { updateDoc, doc, getDoc, getFirestore } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js' 
+        const firebaseConfig = {
+            apiKey: "AIzaSyBGzZch_zntuIuZLxX3NF4UGB9-FWkSIfg",
+            authDomain: "chatter-bug-e5c64.firebaseapp.com",
+            projectId: "chatter-bug-e5c64",
+            storageBucket: "chatter-bug-e5c64.firebasestorage.app",
+            messagingSenderId: "71779570683",
+            appId: "1:71779570683:web:6c287f0f2fc38d5a4ff15e",
+            measurementId: "G-LQN2K08W1D"
+        };
+
+        const app = initializeApp(firebaseConfig);
+
+        const db = getFirestore(app)
+
+        document.getElementById('UserNamePrev').textContent = localStorage.getItem('UserName');
+        document.getElementById('ProfilePrev').src = localStorage.getItem('Profile');
+
+        document.getElementById('Profile').addEventListener('submit', async function(e){
+            e.preventDefault()
+            if (document.getElementById('bar2').value == ""){
+                alert('no')
+            }else{
+                await localStorage.setItem('Profile', document.getElementById('bar2').value);
+                location.reload();
+            }
+        })
+
+        document.getElementById('name').addEventListener('submit', async function(e){
+            e.preventDefault()
+            if (document.getElementById('bar1').value == ""){
+                alert('no')
+            }else{
+                await localStorage.setItem('UserName', document.getElementById('bar1').value);
+                location.reload();
+            }
+        })
+
+        document.getElementById('back').addEventListener('click', async function(){
+            const yourRef = doc(db, "User list", localStorage.getItem('UserId'))
+            await updateDoc(yourRef, {
+                photo: localStorage.getItem('Profile'),
+                name: localStorage.getItem('UserName')
+            });
+            window.location.href = ".//chat.html"
+        })
+    </script>
+</html>

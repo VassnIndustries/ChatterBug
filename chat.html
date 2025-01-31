@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+  <link rel="stylesheet" href="chat.css">
+  <div>
+    <header class='App-header'>
+      <title>ChatRoom</title>
+      <div>
+        <text className='Title'>🐞ChatterBug🐞</text>
+      </div>
+      <script type="Module">
+
+        function Search() {
+          window.location.href = ".//serverSearch.html"
+        }
+
+        function Socials() {
+          window.location.href = ".//index.html"
+        }
+
+        document.getElementById('menu-bt').addEventListener('click', function(event){
+          window.location.href = ".//index.html"
+        })
+
+        document.getElementById('ServerSearch').addEventListener('click', function(event){
+          window.location.href = ".//serverSearch.html"
+        })
+
+        document.getElementById('Socials').addEventListener('click', function(event){
+          window.location.href = ".//Social.html"
+        })
+      </script>
+    </header>
+  </div>
+    <script type="Module">
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js';
+import { getFirestore, collection, getDocs, addDoc, updateDoc, doc, deleteDoc, getDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBGzZch_zntuIuZLxX3NF4UGB9-FWkSIfg",
+  authDomain: "chatter-bug-e5c64.firebaseapp.com",
+  projectId: "chatter-bug-e5c64",
+  storageBucket: "chatter-bug-e5c64.firebasestorage.app",
+  messagingSenderId: "71779570683",
+  appId: "1:71779570683:web:6c287f0f2fc38d5a4ff15e",
+  measurementId: "G-LQN2K08W1D"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app)
+
+let ServerState = localStorage.getItem('Server');
+//console.log(localStorage.getItem('Server'))
+//console.log(localStorage.getItem('UserId'))
+
+let citiesCol = collection(db, ServerState);
+
+let citySnapshot = await getDocs(citiesCol);
+
+let cityList = citySnapshot.docs.map(doc => doc.data());
+
+cityList.sort(function(a, b){return a.createdAt - b.createdAt});
+
+let SendType = "msg"
+
+let messageReplied = null
+
+let fillerLoad = false
+
+async function load(number){
+
+  const ChatArea = document.getElementById('ChatArea')
+  const HolderHolder = document.createElement('div')
+  const Holder = document.createElement('p')
+  if(cityList[number].type == "reply"){
+    if (cityList[number].uid == localStorage.getItem('UserId')){
+      HolderHolder.id = 'HolderHolder'
+      HolderHolder.setAttribute('msgId', cityList[number].messageId)
+    }else{
+      HolderHolder.id = 'recHolderHolder'
+    }
+    Holder.id = 'RepmessageHolder'
+  }else if (cityList[number].uid == localStorage.getItem('UserId')){
+    HolderHolder.id = 'HolderHolder'
+    HolderHolder.setAttribute('msgId', cityList[number].messageId)
+    Holder.id = 'messageHolder'
+  } else{
+    HolderHolder.id = 'recHolderHolder'
+    Holder.id = 'RecmessageHolder'
+  }
+
+  let name = cityList[number].name
+
+  let Photo = cityList[number].photo
+
+  if (cityList[number].uid != null) {
+    const yourRef = doc(db, "User list", cityList[number].uid)
+    await getDoc(yourRef).then((docSnap)=> {
+      if (docSnap.exists()){
+        name = docSnap.data().name
+        Photo = docSnap.data().photo
+      }
+    })
+  }
+  
+  if (cityList[number].photo != null){
+    const Profile = document.createElement('img')
+    Profile.src = Photo
+    Profile.id = 'messagePic'
+    HolderHolder.appendChild(Profile)
+  }
+
+  if (cityList[number].text != null && cityList[number].type == "reply"){
+    const message = document.createElement('a')
+    const message2 = document.createElement('text')
+    message.textContent = 'replied to: "' + cityList[number].repiedTo + '"'
+    message2.textContent = name + ": " + cityList[number].text
+    Holder.appendChild(message)
+    Holder.appendChild(message2)
+  }else if (cityList[number].text != null){
+    const message = document.createElement('text')
+    message.textContent = name + ": " + cityList[number].text
+    Holder.appendChild(message)
+  }
+
+  if (cityList[number].Image != null){
+    const Image = document.createElement('img')
+    Image.src = cityList[number].Image
+    Image.id = 'messageImg'
+    Holder.appendChild(Image)
+    Image.addEventListener('click', function(){
+      ImagePrev(Holder)
+    })
+  }
+  HolderHolder.appendChild(Holder)
+  ChatArea.appendChild(HolderHolder)
+
+  Holder.addEventListener('contextmenu', function(e){
+    e.preventDefault();
+    menu(HolderHolder, Holder)
+  })
+
+  if (number + 1 == cityList.length){
+    fillerLoad = true
+  }
+};
+
+
+function ImagePrev(Holder){
+  const htmli = document.getElementById("mainEvent")
+  const interact = document.createElement('div')
+  interact.style.marginLeft  = 35 + "%";
+  interact.style.marginTop  = 5 + "%"
+
+
+  const txt = document.createElement('Text')
+  txt.textContent = 'Preveiw'
+  interact.appendChild(txt)
+
+  const X = document.createElement('button')
+  X.textContent = 'close Image'
+  interact.appendChild(X)
+  X.setAttribute('class', 'button')
+
+  const scroll = document.getElementById('ChatArea')
+
+  X.addEventListener('click', function(){
+    interact.remove()
+  })
+      
+
+  const child = Holder.children
+
+  const img = document.createElement('img')
+  img.style.height = 400 + "px"
+  if (Holder.id == "RepmessageHolder"){
+    img.src = child[2].getAttribute('src')
+  }else{
+    img.src = child[1].getAttribute('src')
+  }
+  interact.appendChild(img)
+      
+
+  interact.setAttribute('class', 'Menu')
+  htmli.appendChild(interact)
+}
+
+function menu(HolderHolder, Holder) {
+  const child = Holder.children
+    
+  const htmli = document.getElementById("mainEvent")
+  const interact = document.createElement('div')
+
+  const txt = document.createElement('Text')
+  txt.textContent = 'Context Menu'
+  interact.appendChild(txt)
+
+  const btRep = document.createElement('button')
+  btRep.textContent = 'Reply'
+  btRep.setAttribute('class', 'button')
+  interact.appendChild(btRep)
+  btRep.addEventListener('click', function(){
+      
+    messageReplied = child[0].textContent
+    document.getElementById('sendVal').setAttribute('sendType', 'rpl')
+    document.getElementById('formVal').placeholder = "reply to message"
+    document.getElementById('sendVal').textContent = "reply"
+    interact.remove()
+  })
+
+
+  if (HolderHolder.id == 'HolderHolder'){
+    const btEdit = document.createElement('button')
+    btEdit.textContent = 'Edit'
+    btEdit.setAttribute('class', 'button')
+    btEdit.addEventListener('click', async function(){
+      interact.remove();
+      document.getElementById('sendVal').setAttribute('sendType', 'edt')
+      document.getElementById('sendVal').textContent = "edit"
+      const MsgId = HolderHolder.getAttribute('msgId')
+      messageReplied = doc(db, ServerState, MsgId);
+      const msgi = await getDoc(messageReplied)
+      document.getElementById('formVal').value = msgi.data().text
+      document.getElementById('imgVal').value = msgi.data().Image
+    })
+
+    const btDel = document.createElement('button')
+    btDel.textContent = 'Delete'
+    btDel.setAttribute('class', 'button')
+    btDel.addEventListener('click', async function(){
+      interact.remove();
+      const MsgId = HolderHolder.getAttribute('msgId')
+      const docRef = doc(db, ServerState, MsgId);
+      await deleteDoc(docRef);
+      HolderHolder.remove();
+    })
+
+    interact.appendChild(btEdit)
+    interact.appendChild(btDel)
+  }
+
+  interact.setAttribute('class', 'Menu')
+  interact.setAttribute('onmouseleave', 'this.remove()')
+  htmli.appendChild(interact)
+  var x = event.clientX; 
+  var y = event.clientY;
+  interact.style.marginLeft  = x - 50 +"px";
+  interact.style.marginTop  = y - 100 +"px";
+}
+
+let count = 0
+while (count < cityList.length) {
+  load(count);
+  count += 1
+}
+  
+  async function send(){
+    const userName = localStorage.getItem('UserName');
+    const picProfile = localStorage.getItem('Profile');
+    const formValue = document.getElementById('formVal').value
+    const imgValue = document.getElementById('imgVal').value
+    if (formValue != "" || imgValue != ""){
+
+      const date = new Date();
+      if (document.getElementById('sendVal').getAttribute('sendType') == "msg"){
+        document.getElementById('sendVal').textContent = "sending..."
+        document.getElementById('sendVal').disabled = true
+        const messageRef1 = await addDoc(collection(db, ServerState), {
+          text: formValue,
+          Image: imgValue,
+          createdAt: date,
+          photo:picProfile,
+          name: userName,
+          uid: localStorage.getItem('UserId'),
+          type: "message",
+          messageId: "",
+        })
+
+        await updateDoc(messageRef1, {
+          messageId: messageRef1.id
+        });
+      }else if(document.getElementById('sendVal').getAttribute('sendType') == "rpl"){
+        document.getElementById('sendVal').textContent = "replying..."
+        document.getElementById('sendVal').disabled = true
+        const messageRef1 = await addDoc(collection(db, ServerState), {
+          text: formValue,
+          repiedTo: messageReplied,
+          Image: imgValue,
+          createdAt: date,
+          photo:picProfile,
+          name: userName,
+          uid: localStorage.getItem('UserId'),
+          type: "reply",
+          messageId: "",
+        })
+
+        await updateDoc(messageRef1, {
+          messageId: messageRef1.id
+        });
+      }else if(document.getElementById('sendVal').getAttribute('sendType') == "edt"){
+        document.getElementById('sendVal').textContent = "editing..."
+        
+        await updateDoc(messageReplied, {
+          text: formValue,
+          Image: imgValue,
+        });
+      }
+      document.getElementById('sendVal').setAttribute('sendType', 'msg')
+      document.getElementById('formVal').value = ""
+      document.getElementById('imgVal').value = ""
+      document.getElementById('formVal').placeholder = "send message"
+      document.getElementById('sendVal').textContent = "send"
+      document.getElementById('sendVal').disabled = false
+    }else{
+      alert("you can't just send a blank message")
+    }
+  }
+
+  document.getElementById('X').addEventListener('click', function(event){
+    document.getElementById('sendVal').setAttribute('sendType', 'msg')
+    document.getElementById('formVal').value = ""
+    document.getElementById('imgVal').value = ""
+    document.getElementById('formVal').placeholder = "send message"
+    document.getElementById('sendVal').textContent = "send"
+  });
+
+  document.getElementById('typebar').addEventListener('submit', function(event){
+    event.preventDefault()
+    send()
+  });
+
+  document.getElementById('EmojiPutter').addEventListener('change', function(){
+    document.getElementById('formVal').value = document.getElementById('formVal').value + document.getElementById('EmojiPutter').value
+    document.getElementById('EmojiPutter').value = ""
+  });
+
+  async function loadNew(img, useId, text, id, type, repTo){
+    const ChatArea = document.getElementById('ChatArea')
+    const HolderHolder = document.createElement('div')
+    const Holder = document.createElement('p')
+    if(type == "reply"){
+      if (useId == localStorage.getItem('UserId')){
+        HolderHolder.id = 'HolderHolder'
+        HolderHolder.setAttribute('msgId', id)
+      }else{
+        HolderHolder.id = 'recHolderHolder'
+      }
+      Holder.id = 'RepmessageHolder'
+    }else if (useId == localStorage.getItem('UserId')){
+      HolderHolder.id = 'HolderHolder'
+      HolderHolder.setAttribute('msgId', id)
+      Holder.id = 'messageHolder'
+    } else{
+      HolderHolder.id = 'recHolderHolder'
+      Holder.id = 'RecmessageHolder'
+    }
+
+    let name = "nameNotFound"
+
+    let Photo = null
+
+    if (useId != null) {
+      console.log(id)
+      const yourRef = doc(db, "User list", useId)
+      await getDoc(yourRef).then((docSnap)=> {
+        if (docSnap.exists()){
+          name = docSnap.data().name
+          Photo = docSnap.data().photo
+        }
+      })
+    }
+  
+    if (Photo != null){
+      const Profile = document.createElement('img')
+      Profile.src = Photo
+      Profile.id = 'messagePic'
+      HolderHolder.appendChild(Profile)
+    }
+
+    if (text != null && type == "reply"){
+      const message = document.createElement('a')
+      const message2 = document.createElement('text')
+      message.textContent = 'replied to: "' + repTo + '"'
+      message2.textContent = name + ": " + text
+      Holder.appendChild(message)
+      Holder.appendChild(message2)
+    }else if (text != null){
+      const message = document.createElement('text')
+      message.textContent = name + ": " + text
+      Holder.appendChild(message)
+    }
+
+    if (img != null){
+      const Image = document.createElement('img')
+      Image.src = img
+      Image.id = 'messageImg'
+      Holder.appendChild(Image)
+      Image.addEventListener('click', function(){
+        ImagePrev(Holder)
+      })
+    }
+    HolderHolder.appendChild(Holder)
+    ChatArea.appendChild(HolderHolder)
+
+    Holder.addEventListener('contextmenu', function(e){
+      e.preventDefault();
+      menu(HolderHolder, Holder)
+    })
+  };
+
+  
+  const serverStateCollection = collection(db, ServerState);
+
+  onSnapshot(serverStateCollection, (snapshot) => {
+    snapshot.docChanges().forEach((change) => {
+      if (change.type == 'added' && fillerLoad == true) {
+        // New document added
+        loadNew(
+          change.doc.data().Image, 
+          change.doc.data().uid, 
+          change.doc.data().text, 
+          change.doc.id, 
+          change.doc.data().type, 
+          change.doc.data().repiedTo
+        )
+      }
+    });
+  });
+
+    </script>
+    <main id="mainEvent">
+      <div class="Chat" id="ChatArea">
+      </div>
+      <text id="end">end of chat</text>
+
+    </main>
+
+    <header class='side'>
+      <div>
+        <text>Side menu</text>
+      </div>
+      <div>
+        <button class='button' id="ServerSearch">Server Search</button>
+        <button class='button' >Server Create</button>
+        <button class='button' id="Socials" >Social👤</button>
+        <button class='button' id="settings">Settings⚙️</button>
+        <button class="button" id="menu-bt">menu</button>
+      </div>
+    </header>
+    
+    <form id="typebar" class="typebar">
+
+      <input class="textimputer" id="formVal" placeholder='send messge'/>
+      <input class="gifbar" id="imgVal" placeholder='image link'/>
+
+      <label>
+        <select
+          class='EmojiPutter'
+          id="EmojiPutter"
+          value=''
+        >
+          <option value='' >Emojis</option>
+          <option value='😀' >Happy😀</option>
+          <option value='😭' >sad😭</option>
+          <option value='👍' >Approved👍</option>
+          <option value='👎' >Disaproved👎</option>
+          <option value='🤓' >nerd🤓</option>
+          <option value='😡' >Angry😡</option>
+          <option value='🤬' >F&*%$#🤬</option>
+          <option value='💀' >Skull💀</option>
+          <option value='👀' >I see you👀</option>
+          <option value='🤮' >disgusting🤮</option>
+          <option value='😱' >Shocked😱</option>
+          <option value='🤑' >Money🤑</option>
+          <option value='😎' >Cool😎</option>
+          <option value='😍' >I love it😍</option>
+          <option value='🐴' >HORSE🐴</option>
+          <option value='🐞' >Lady Bug🐞</option>
+          <option value='🤡' >You🤡</option>
+        </select>
+      </label>
+
+      <button sendType="msg" type="submit" class="send" id="sendVal">send</button>
+
+      <button type="reset" class="send" id="X">X</button>
+
+    </form>
+</html>
