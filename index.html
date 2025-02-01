@@ -140,9 +140,22 @@ margin-top: 50px;">
         function Upcoming(){
             document.getElementById('logArea').textContent = ("Upcomming Updates" + "\r\n" +
             "Version 2.0.0" + "\r\n" +
-            "Total revamp")
+            "Google signUp/Login" + "\r\n" +
+            "Server Creating" + "\r\n" +
+            "Censorship" + "\r\n" +
+            "friending people" + "\r\n" +
+            "More settings")
         }
 
+        function Events(){
+            document.getElementById('logArea').textContent = ("Events" + "\r\n" +
+            "ChatterBug launching" + "\r\n")
+        }
+
+        function More(){
+            document.getElementById('logArea').textContent = ("More" + "\r\n" +
+            "nothing else" + "\r\n")
+        }
 
         //document.querySelector('#InSign').addEventListener('click', signIn)
 
@@ -152,6 +165,8 @@ margin-top: 50px;">
 
         document.getElementById("new").addEventListener('click', New)
         document.getElementById("Up").addEventListener('click', Upcoming)
+        document.getElementById("even").addEventListener('click', Events)
+        document.getElementById("more").addEventListener('click', More)
     </script>
     <div>
         <text style="font-size:xx-large;">🐞ChatterBug🐞</text>
