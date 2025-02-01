@@ -37,17 +37,17 @@
     background-color: #C5E255;
     border-width: 4px;
     border-color:  #578B2E;
-    border-style: solid;">updates Log
+    border-style: solid;" id="logArea">updates Log
 Version 2.0.0
 Total revamp
 </textarea>
 <div style="display: flex;
 flex-direction: column;
 margin-top: 50px;">
-    <button style="height: 60px;" class="button">New</button>
-    <button style="height: 60px;" class="button">Updates</button>
-    <button style="height: 60px;" class="button">events</button>
-    <button style="height: 60px;" class="button">More</button>
+    <button style="height: 60px;" class="button" id="new">New</button>
+    <button style="height: 60px;" class="button" id="Up">Upcoming</button>
+    <button style="height: 60px;" class="button" id="even">events</button>
+    <button style="height: 60px;" class="button" id="more">More</button>
 </div>
 
 </header>
@@ -127,6 +127,14 @@ margin-top: 50px;">
                 uid: localStorage.getItem('UserId'),
             })
             window.location.href = ".//chat.html"
+        }
+
+        const LogArea = document.getElementById('logArea')
+
+        function New(){
+            LogArea.textContent = "updates Log \n
+Version 2.0.0 \n
+Total revamp"
         }
 
 
