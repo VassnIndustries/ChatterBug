@@ -413,7 +413,7 @@ while (count < cityList.length) {
 
   onSnapshot(serverStateCollection, (snapshot) => {
     snapshot.docChanges().forEach((change) => {
-      if (change.type == 'added' && fillerLoad == true) {
+      if (change.type == 'added' && fillerLoad == true && change.doc.data().type != "welcome") {
         // New document added
         loadNew(
           change.doc.data().Image, 
