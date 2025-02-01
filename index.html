@@ -94,7 +94,7 @@ margin-top: 50px;">
             localStorage.setItem('Profile', null);
             localStorage.setItem('UserName', null);
             localStorage.setItem('UserId', null);
-            auth.signOut();
+            //auth.signOut();
             alert("SignOut Successful");
         }
 
@@ -130,7 +130,7 @@ margin-top: 50px;">
         }
 
 
-        document.querySelector('#InSign').addEventListener('click', signIn)
+        //document.querySelector('#InSign').addEventListener('click', signIn)
 
         document.querySelector('#OutSign').addEventListener('click', signOut)
 
@@ -138,9 +138,9 @@ margin-top: 50px;">
     </script>
     <div>
         <text style="font-size:xx-large;">🐞ChatterBug🐞</text>
-        <button style="display: flex;" class="button" id="InSign">
+        <!--<button style="display: flex;" class="button" id="InSign">
             SignIn/LogIn
-        </button>
+        </button>-->
 
         <button style="display: flex;" class="button" id="OutSign">
             SignOut
