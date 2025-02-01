@@ -132,9 +132,15 @@ margin-top: 50px;">
         const LogArea = document.getElementById('logArea')
 
         function New(){
-            LogArea.textContent = "News \n
-Version 2.0.0 \n
-Total revamp"
+            document.getElementById('logArea').textContent = ("News" + "\r\n" +
+            "Version 2.0.0" + "\r\n" +
+            "Total revamp")
+        }
+
+        function Upcoming(){
+            document.getElementById('logArea').textContent = ("Upcomming Updates" + "\r\n" +
+            "Version 2.0.0" + "\r\n" +
+            "Total revamp")
         }
 
 
@@ -145,6 +151,7 @@ Total revamp"
         document.querySelector('#guestLogin').addEventListener('click', Guest)
 
         document.getElementById("new").addEventListener('click', New)
+        document.getElementById("Up").addEventListener('click', Upcoming)
     </script>
     <div>
         <text style="font-size:xx-large;">🐞ChatterBug🐞</text>
