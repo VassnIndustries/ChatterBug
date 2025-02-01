@@ -37,7 +37,7 @@
     background-color: #C5E255;
     border-width: 4px;
     border-color:  #578B2E;
-    border-style: solid;" id="logArea">updates Log
+    border-style: solid;" id="logArea">News
 Version 2.0.0
 Total revamp
 </textarea>
@@ -45,6 +45,7 @@ Total revamp
 flex-direction: column;
 margin-top: 50px;">
     <button style="height: 60px;" class="button" id="new">New</button>
+    <button style="height: 60px;" class="button" id="date">Updates</button>
     <button style="height: 60px;" class="button" id="Up">Upcoming</button>
     <button style="height: 60px;" class="button" id="even">events</button>
     <button style="height: 60px;" class="button" id="more">More</button>
@@ -137,6 +138,12 @@ margin-top: 50px;">
             "Total revamp")
         }
 
+        function Updates(){
+            document.getElementById('logArea').textContent = ("updates Log" + "\r\n" +
+            "Version 2.0.0" + "\r\n" +
+            "Total revamp")
+        }
+
         function Upcoming(){
             document.getElementById('logArea').textContent = ("Upcomming Updates" + "\r\n" +
             "Version 2.0.0" + "\r\n" +
@@ -164,6 +171,7 @@ margin-top: 50px;">
         document.querySelector('#guestLogin').addEventListener('click', Guest)
 
         document.getElementById("new").addEventListener('click', New)
+        document.getElementById("date").addEventListener('click', Updates)
         document.getElementById("Up").addEventListener('click', Upcoming)
         document.getElementById("even").addEventListener('click', Events)
         document.getElementById("more").addEventListener('click', More)
