@@ -77,12 +77,11 @@ margin-top: 50px;">
 
         const db = getFirestore(app)
 
-        const provider = new GoogleAuthProvider();
+        const provider = new firebase.auth.GoogleAuthProvider();
 
 
         // SignIn function
         function signIn() {
-            alert('wow')
             signInWithPopup(auth, provider)
             .then(() => {
                 window.location.href = ".//chat.html"
