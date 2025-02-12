@@ -81,9 +81,10 @@ margin-top: 50px;">
 
 
         // SignIn function
-        function signIn() {
-            signInWithPopup(auth, provider)
+        async function signIn() {
+            const result = await signInWithPopup(auth, provider);
             .then(() => {
+                alert(result.user)
                 window.location.href = ".//chat.html"
             })
             alert("LogIn/SingUp Successful")
