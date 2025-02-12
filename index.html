@@ -93,7 +93,10 @@ margin-top: 50px;">
                 // https://firebase.google.com/docs/reference/js/firebase.User
                 console.log("User signed in:", user);
                 alert("LogIn/SingUp Successful")
-                alert("data", user.displayName, user.photoURL, user.uid)
+                const Name = user.displayName;
+                const photo = user.photoURL
+                const uid = user.uid
+                alert("data", Name, photo, uid)
                 //window.location.href = ".//chat.html"
                 
             } else {
