@@ -99,15 +99,8 @@ margin-top: 50px;">
                 localStorage.setItem('UserName', Name);
                 localStorage.setItem('UserId', uid);
                 alert(Name);
-                const yourRef = doc(db, "User list", localStorage.getItem('UserId'));
-
-                await getDoc(yourRef).then((docSnap)=> {
-                    if (docSnap.exists()){
-                        window.location.href = ".//chat.html"
-                    }else{
-                        createAccount()
-                    }
-                })
+                createAccount()
+                
                 
             } else {
                 // User is signed out
@@ -156,14 +149,22 @@ margin-top: 50px;">
         }
 
         async function createAccount(){
-            const date = new Date();
-            await setDoc(doc(db, "User list", localStorage.getItem('UserId')), {
-                createdAt: date,
-                photo: localStorage.getItem('Profile'),
-                name: localStorage.getItem('UserName'),
-                uid: localStorage.getItem('UserId'),
+            const yourRef = doc(db, "User list", localStorage.getItem('UserId'));
+
+            await getDoc(yourRef).then((docSnap)=> {
+                if (docSnap.exists()){
+                    window.location.href = ".//chat.html"
+                }else{
+                    const date = new Date();
+                    await setDoc(doc(db, "User list", localStorage.getItem('UserId')), {
+                        createdAt: date,
+                        photo: localStorage.getItem('Profile'),
+                        name: localStorage.getItem('UserName'),
+                        uid: localStorage.getItem('UserId'),
+                    }) 
+                    window.location.href = ".//chat.html"
+                }
             })
-            window.location.href = ".//chat.html"
         }
 
         const LogArea = document.getElementById('logArea')
