@@ -84,11 +84,23 @@ margin-top: 50px;">
         async function signIn() {
             const result = await signInWithPopup(auth, provider);
             alert(result)
-            //.then(() => {
-                window.location.href = ".//chat.html"
-            //})
-            alert("LogIn/SingUp Successful")
         }
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                console.log("User signed in:", user);
+                alert("LogIn/SingUp Successful")
+                alert("date", user.displayName, user.photoURL, user.uid)
+                //window.location.href = ".//chat.html"
+                
+            } else {
+                // User is signed out
+                console.log("User is signed out");
+                // ... handle user sign-out ...
+            }
+         });
 
         // SignOut
         function signOut() {
