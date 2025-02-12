@@ -148,6 +148,17 @@ margin-top: 50px;">
             window.location.href = ".//chat.html"
         }
 
+        async function Create(){
+            const date = new Date();
+            await setDoc(doc(db, "User list", localStorage.getItem('UserId')), {
+                createdAt: date,
+                photo: localStorage.getItem('Profile'),
+                name: localStorage.getItem('UserName'),
+                uid: localStorage.getItem('UserId'),
+            }) 
+            window.location.href = ".//chat.html"
+        }
+
         async function createAccount(){
             const yourRef = doc(db, "User list", localStorage.getItem('UserId'));
 
@@ -155,14 +166,7 @@ margin-top: 50px;">
                 if (docSnap.exists()){
                     window.location.href = ".//chat.html"
                 }else{
-                    const date = new Date();
-                    await setDoc(doc(db, "User list", localStorage.getItem('UserId')), {
-                        createdAt: date,
-                        photo: localStorage.getItem('Profile'),
-                        name: localStorage.getItem('UserName'),
-                        uid: localStorage.getItem('UserId'),
-                    }) 
-                    window.location.href = ".//chat.html"
+                    Create()
                 }
             })
         }
