@@ -83,7 +83,6 @@ margin-top: 50px;">
         // SignIn function
         async function signIn() {
             const result = await signInWithPopup(auth, provider);
-            alert(result)
         }
 
         //auth destection
@@ -96,13 +95,23 @@ margin-top: 50px;">
                 const Name = user.displayName;
                 const photo = user.photoURL
                 const uid = user.uid
+                localStorage.setItem('Profile', photo);
+                localStorage.setItem('UserName', Name);
+                localStorage.setItem('UserId', uid);
                 alert(Name)
-                //window.location.href = ".//chat.html"
+                const yourRef = doc(db, "User list", localStorage.getItem('UserId'))
+
+                await getDoc(yourRef).then((docSnap)=> {
+                    if (docSnap.exists()){
+                        window.location.href = ".//chat.html"
+                    }else{
+                        createAccount()
+                    }
+                })
                 
             } else {
                 // User is signed out
                 console.log("User is signed out");
-                // ... handle user sign-out ...
             }
          });
 
@@ -129,18 +138,29 @@ margin-top: 50px;">
                 if (docSnap.exists()){
                     window.location.href = ".//chat.html"
                 }else{
-                    createAccount()
+                    createGuest()
                 }
             })
         }
 
 
-        async function createAccount(){
+        async function createGuest(){
             const date = new Date();
             await setDoc(doc(db, "User list", localStorage.getItem('UserId')), {
                 createdAt: date,
                 photo: 'https://www.pngmart.com/files/23/Profile-PNG-Photo.png',
                 name: 'guest',
+                uid: localStorage.getItem('UserId'),
+            })
+            window.location.href = ".//chat.html"
+        }
+
+        async function createAccount(){
+            const date = new Date();
+            await setDoc(doc(db, "User list", localStorage.getItem('UserId')), {
+                createdAt: date,
+                photo: localStorage.getItem('Profile'),
+                name: localStorage.getItem('UserName'),
                 uid: localStorage.getItem('UserId'),
             })
             window.location.href = ".//chat.html"
