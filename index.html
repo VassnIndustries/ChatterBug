@@ -159,8 +159,8 @@ margin-top: 50px;">
             }) 
             const start = document.querySelector('#start');
             const File = document.getElementById('file')
-            File.opacity = 1
-            start.opacity = 1;
+            File.style.opacity = 1
+            start.style.opacity = 1;
         }
 
         async function createAccount(){
@@ -170,8 +170,8 @@ margin-top: 50px;">
                 if (docSnap.exists()){
                     const start = document.querySelector('#start');
                     const File = document.getElementById('file')
-                    File.opacity = 1
-                    start.opacity = 1;
+                    File.style.opacity = 1
+                    start.style.opacity = 1;
                 }else{
                     Create()
                 }
