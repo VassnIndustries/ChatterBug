@@ -157,7 +157,10 @@ margin-top: 50px;">
                 name: localStorage.getItem('UserName'),
                 uid: localStorage.getItem('UserId'),
             }) 
-            window.location.href = ".//chat.html"
+            const start = document.querySelector('#start');
+            const File = document.getElementById('file')
+            File.opacity = 1
+            start.opacity = 1;
         }
 
         async function createAccount(){
@@ -165,7 +168,10 @@ margin-top: 50px;">
 
             await getDoc(yourRef).then((docSnap)=> {
                 if (docSnap.exists()){
-                    //window.location.href = ".//chat.html"
+                    const start = document.querySelector('#start');
+                    const File = document.getElementById('file')
+                    File.opacity = 1
+                    start.opacity = 1;
                 }else{
                     Create()
                 }
@@ -212,12 +218,34 @@ margin-top: 50px;">
 
         document.querySelector('#guestLogin').addEventListener('click', Guest)
 
+        document.querySelector('#start').addEventListener('click', function(){
+            window.location.href = ".//chat.html"
+        })
+
         document.getElementById("new").addEventListener('click', New)
         document.getElementById("date").addEventListener('click', Updates)
         document.getElementById("Up").addEventListener('click', Upcoming)
         document.getElementById("even").addEventListener('click', Events)
         document.getElementById("more").addEventListener('click', More)
     </script>
+    <div id='file' style="background-color: #C5E255;
+    border-width: 4px;
+    border-color:  #578B2E;
+    border-style: solid;
+    border-radius: 30px;
+    align-content: center;
+    padding: 10px;
+    width: 200px;
+    height: 270px;
+    margin-bottom: 30px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity:0;">
+        <img style="display: flex; width: 150px;" src="https://www.pngmart.com/files/23/Profile-PNG-Photo.png"/>
+        <text style="display: flex; font-size:xx-large;" >name</text>
+    </div>
     <div>
         <text style="font-size:xx-large;">🐞ChatterBug🐞</text>
         <button style="display: flex;" class="button" id="InSign">
@@ -230,6 +258,10 @@ margin-top: 50px;">
 
         <button style="display: flex;" class="button" id="OutSign">
             SignOut
+        </button>
+
+        <button style="display: flex; opacity:0;" class="button" id="start">
+            start Chatting
         </button>
     </div>
 </body>
